@@ -26,6 +26,50 @@
 
   <!-- Custom CSS -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <script>
+		function login() {
+
+			event.preventDefault();
+
+			// Get form elements by ID
+			var usernameInput = document.getElementById('username');
+			var passwordInput = document.getElementById('password');
+
+			// Get the values entered by the user
+			var username = usernameInput.value.trim();
+			var password = passwordInput.value.trim();
+
+			// Basic validation - Check if the fields are empty
+			if (!username || !password) {
+				// Display an error message
+				var msg = " Please enter username and password .";
+				document.getElementById('status').innerHTML = msg;
+				return;
+			}
+			
+			const apiUrl = '../../api/auth/login.php';
+
+			const body = {username , password};
+
+            // Make a POST request using fetch
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Set the appropriate content type
+                },
+                body: JSON.stringify(data), // Convert the data to JSON format
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('API Response:', result);
+                // Handle the API response as needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors
+            });
+		}
+  </script>
 </head>
 
 <body>
@@ -74,18 +118,18 @@
 										<form class="mt-4 text-start">
 											<div class="form py-4">
 												<div class="form-floating mb-4">
-													<input type="email" class="form-control" placeholder="name@example.com" required="">
+													<input id="username" type="email" class="form-control" placeholder="name@example.com" required="">
 													<label>User Name</label>
 												</div>
 												<div class="form-floating mb-4">
-													<input type="password" class="form-control" id="password-field" name="password" placeholder="Password"  required="">
+													<input id="password" type="password" class="form-control" id="password-field" name="password" placeholder="Password"  required="">
 													<label>Password</label>
 													<span
 														class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3 fa-regular fa-eye"></span>
 												</div>
 
 												<div class="form-group">
-													<button type="submit" class="btn btn-primary full-width font--bold btn-lg">Log In</button>
+													<button onclick="login()" class="btn btn-primary full-width font--bold btn-lg">Log In</button>
 												</div>
 
 												<div class="modal-flex-item d-flex align-items-center justify-content-between mb-3">
