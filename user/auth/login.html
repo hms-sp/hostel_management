@@ -43,7 +43,7 @@
 			if (!username || !password) {
 				// Display an error message
 				var msg = " Please enter username and password .";
-				document.getElementById('status').innerHTML = msg;
+				document.getElementById('status').innerHTML = "<div class='alert alert-info'>"+msg+"</div>";
 				return;
 			}
 			
@@ -57,7 +57,7 @@
                 headers: {
                     'Content-Type': 'application/json', // Set the appropriate content type
                 },
-                body: JSON.stringify(data), // Convert the data to JSON format
+                body: JSON.stringify(body), // Convert the data to JSON format
             })
             .then(response => response.json())
             .then(result => {
@@ -117,6 +117,8 @@
 										<!-- Form START -->
 										<form class="mt-4 text-start">
 											<div class="form py-4">
+												<div id="status">
+												</div>
 												<div class="form-floating mb-4">
 													<input id="username" type="email" class="form-control" placeholder="name@example.com" required="">
 													<label>User Name</label>
