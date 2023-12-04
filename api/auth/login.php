@@ -2,7 +2,7 @@
 
 include_once('helpers/db.php');
 
-$required_fields = ['userName', 'password'];
+$required_fields = ['username', 'password'];
 
 $validated = true;
 
@@ -18,7 +18,7 @@ foreach($required_fields as $required_field){
 
 if ($validated) {
 
-  $userName = trim($request['userName']);
+  $userName = trim($request['username']);
   $password = trim($request['password']);
 
   login($userName, $password);
@@ -33,15 +33,9 @@ else{
 
 function login($userName,$password){
 
-    global $conn,$loginUrl,$dashboardUrl;
+    global $conn;
 
-    $query = mysqli_query($conn,"SELECT password FROM `userData` WHERE `userName`='$userName'");
-    $data=mysqli_fetch_array($query);
-
-    if ($data && isset($data['password']) && $data['password'] == $password){
-
-        $_SESSION['session_id']=session_id();
-        $_SESSION['userName']=$userName;
+    if(security::setUser($userName,$password)){
 
         $data = ['isSuccessfull' => true , 'status' => 'please enter username and password'];
         echo json_encode($data);

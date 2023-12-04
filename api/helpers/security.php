@@ -25,22 +25,24 @@ class security{
    static $userIdColumn;
 
 
-   public static function setUser($userId,$password,$userClass="user",$userTable="users",$userIdColumn="username")
+   public static function setUser($userId,$password,$userClass="user",$userTable="users",$userIdColumn="userName")
    {
     global $conn;
     $userRepo=new repository($userClass,$userTable,$userIdColumn,$conn);
 
     self::$userData=$userRepo->fetch(["$userIdColumn" => $userId])['data'];
 
-    if(self::$userData->password == $password){
+    if(isset(self::$userData->password) && self::$userData->password == $password){
        self::$userIdColumn=$userIdColumn;
        $_SESSION[self::$userIdColumn]=$userId;
        self::$userId=$userId;
        self::$sessionId=session_id();
-       self::$roles=explode(',',self::$userData->roles);
-       return self::$userData;
+       if(isset(self::$userData->roles)){
+           self::$roles=explode(',',self::$userData->roles);
+       }
+       return true;
     }
-    return NULL;
+    return false;
 
    }
 
