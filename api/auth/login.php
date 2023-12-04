@@ -1,6 +1,5 @@
 <?php
 
-include_once('helpers/db.php');
 
 $required_fields = ['username', 'password'];
 
@@ -33,16 +32,16 @@ else{
 
 function login($userName,$password){
 
-    global $conn;
+    global $request;
 
     if(security::setUser($userName,$password)){
 
-        $data = ['isSuccessfull' => true , 'status' => 'please enter username and password'];
+        $data = ['isSuccessfull' => true , 'status' => 'login successfull', 'request'=>json_encode($request)];
         echo json_encode($data);
         // redirect($dashboardUrl,['status' => 'Incorrect username or password']);
     }
     else{
-        $data = ['isSuccessfull' => false , 'status' => 'please enter username and password'];
+        $data = ['isSuccessfull' => false , 'status' => 'incorrect username or password', 'request'=>json_encode($request)];
         echo json_encode($data);
         // redirect($loginUrl,['status' => 'Incorrect username or password']);
     }
