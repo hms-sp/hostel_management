@@ -24,7 +24,7 @@ if ($validated) {
   
 }
 else{
-    $data = ['isSuccessfull' => false , 'status' => 'please enter username and password'];
+    $data = ['isSuccessfull' => false , 'status' => 'please enter username and password', 'request'=>json_encode($request)];
     echo json_encode($data);
     // redirect($dashboardUrl,['status' => 'please enter username and password.']);
 }
