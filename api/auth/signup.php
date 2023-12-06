@@ -5,9 +5,11 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ini_set('allow_url_fopen',1);
 
-include_once('../helpers/security.php');
+include_once('../helpers/db.php');
+include_once('../models/user.php');
 
 $required_fields = ['username', 'password' , 'name'];
+$unique_fields = ['username'];
 
 $validated = true;
 
@@ -49,17 +51,41 @@ else{
 
 function signup($userName,$password){
 
-    global $request;
+    global $request,$unique_fields,$conn;
 
-    if(security::setUser($userName,$password)){
+    $classInstance = new user();
+    foreach($_REQUEST as $key=>$input){
+
+        if (!property_exists($classInstance, $key)) continue;
+        
+        $classInstance->{$key} = $input;
+    }
+
+    $uniqueFilter=[];
+    foreach($unique_fields as $unique_field){
+        $uniqueFilter[$unique_field] = $classInstance->{$unique_field};
+    }
+
+
+    $userRepo=new repository('user','users','username',$conn);
+    $existingData=$userRepo->fetchAll($uniqueFilter)['data'];
+
+    if($existingData){
         $log = ob_get_clean();
-        $data = ['isSuccessfull' => true , 'status' => 'signup successfull', 'request'=>json_encode($request),'log'=>$log];
+        $data = ['isSuccessfull' => false , 'status' => 'username already exists', 'request'=>json_encode($request),'log'=>$log];
+        echo json_encode($data);
+        exit;
+    }
+
+    if($userRepo->save($classInstance)['isSuccessfull']){
+        $log = ob_get_clean();
+        $data = ['isSuccessfull' => true , 'status' => 'signup success', 'request'=>json_encode($request),'log'=>$log];
         echo json_encode($data);
         exit;
     }
     else{
         $log = ob_get_clean();
-        $data = ['isSuccessfull' => false , 'status' => 'incorrect username or password', 'request'=>json_encode($request),'log'=>$log];
+        $data = ['isSuccessfull' => false , 'status' => 'something went wrong', 'request'=>json_encode($request),'log'=>$log];
         echo json_encode($data);
         exit;
     }

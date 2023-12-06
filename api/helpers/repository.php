@@ -33,7 +33,7 @@ class repository{
             foreach($filter as $column => $value){
                 $query.= "$column = $value and";
             }
-            $query = substr($query,strlen($query)-4);
+            $query = substr($query,0,strlen($query)-4);
         }
 
         else if(gettype($filter)==gettype('string') and strlen($filter)!=0){
