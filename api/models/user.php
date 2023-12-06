@@ -7,7 +7,7 @@ class user{
    
    public $password;
    
-   public $email;
+   public $name;
 
    public $sessionId;
 
