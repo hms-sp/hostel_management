@@ -1,9 +1,9 @@
 <?php
 
-$db = "epoch";
-$db_user = "143";
-$db_pass = "143";
-$domain="epochtrusts.com";
+$db = "zedtrade";
+$db_user = "u449529685_";
+$db_pass = "Santhosh@1999";
+$domain="zedtrade.io";
 
 $enKey = "123";
 

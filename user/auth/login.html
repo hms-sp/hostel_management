@@ -62,7 +62,15 @@
             .then(response => response.json())
             .then(result => {
                 console.log('API Response:', result);
-                // Handle the API response as needed
+                if(result.isSuccessfull){
+                    window.location.href = "../account/my-profile.html";
+                    return;
+                }
+                else{
+                    var msg = "incorrect username or password .";
+    				document.getElementById('status').innerHTML = "<div class='alert alert-info'>"+msg+"</div>";
+    				return;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);

@@ -1,11 +1,27 @@
 <?php
+ob_start();
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('allow_url_fopen',1);
+
+include_once('../helpers/security.php');
 
 $required_fields = ['username', 'password'];
 
 $validated = true;
 
-$request = $_REQUEST;
+$input_data = file_get_contents("php://input");
+
+$request = json_decode($input_data, true);
+
+if ($request === null) {
+    // JSON decoding failed
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid JSON', 'request'=>$request]);
+    exit;
+}
+
 
 foreach($required_fields as $required_field){
 
@@ -26,7 +42,7 @@ if ($validated) {
 else{
     $data = ['isSuccessfull' => false , 'status' => 'please enter username and password', 'request'=>json_encode($request)];
     echo json_encode($data);
-    // redirect($dashboardUrl,['status' => 'please enter username and password.']);
+    exit;
 }
 
 
@@ -35,15 +51,16 @@ function login($userName,$password){
     global $request;
 
     if(security::setUser($userName,$password)){
-
-        $data = ['isSuccessfull' => true , 'status' => 'login successfull', 'request'=>json_encode($request)];
+        $log = ob_get_clean();
+        $data = ['isSuccessfull' => true , 'status' => 'login successfull', 'request'=>json_encode($request),'log'=>$log];
         echo json_encode($data);
-        // redirect($dashboardUrl,['status' => 'Incorrect username or password']);
+        exit;
     }
     else{
-        $data = ['isSuccessfull' => false , 'status' => 'incorrect username or password', 'request'=>json_encode($request)];
+        $log = ob_get_clean();
+        $data = ['isSuccessfull' => false , 'status' => 'incorrect username or password', 'request'=>json_encode($request),'log'=>$log];
         echo json_encode($data);
-        // redirect($loginUrl,['status' => 'Incorrect username or password']);
+        exit;
     }
 
 }

@@ -1,9 +1,13 @@
 <?php
 
-class customer{
+class user{
 
     
-   public $userId;
+   public $username;
+   
+   public $password;
+   
+   public $email;
 
    public $sessionId;
 

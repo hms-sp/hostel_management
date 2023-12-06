@@ -1,5 +1,13 @@
 <?php
-include_once 'db.php';
+$folderPath = '../models/';
+
+$files = glob($folderPath . '*.php');
+
+foreach ($files as $file) {
+    echo "<br> included - $file";
+    include_once $file;
+}
+
 class repository{
 
     public $className;
@@ -45,7 +53,7 @@ class repository{
         $data=mysqli_fetch_all($query);
         $final=[];
         foreach($data as $d){
-            $classInstance = new $this->className();
+            $classInstance = new $this->className;
             foreach ($d as $key => $value) {
                 if (!property_exists($classInstance, $key)) continue;
     
@@ -64,17 +72,18 @@ class repository{
      public function fetch($filter="",$expression=""){
 
         $query="select * from $this->tableName";
+        
 
         if($filter){
             if(gettype($filter)!=gettype(['array'])){
                 $id=$filter;
                 $filter=[$this->pk => $id];
             }
-            $query=" where ";
+            $query.=" where ";
             foreach($filter as $column => $value){
                 $query.= "`$column`='$value' and";  
             }
-            $query=substr($query,strlen($query)-4);
+            $query = substr($query,0,strlen($query)-4);
         }
         else if(strlen($expression)!=0){
 
@@ -84,14 +93,18 @@ class repository{
         else{
             return ["isSuccessfull" => false , "msg" => "invalid arguments" , "data" =>NULL];
         }
+        echo "<br> query - $query";
         $query=mysqli_query($this->conn,$query);
+        
         if(!$query){
+            echo "<br> query failed - $query";
             return ["isSuccessfull" => false , "msg" => "invalid query" , "data" =>NULL];
       
         }
         $data=mysqli_fetch_array($query);
-    
-        $classInstance = new $this->className();
+        
+        echo "<br> data - ".json_encode($data);
+        $classInstance = new $this->className;
         foreach ($data as $key => $value) {
             if (!property_exists($classInstance, $key)) continue;
 
@@ -120,7 +133,7 @@ class repository{
 
         $rightQuery="values (";
 
-        $classInstance = new $this->className();
+        $classInstance = new $this->className;
         foreach ($data as $key => $value) {
             if (!property_exists($classInstance, $key)) continue;
 
@@ -181,7 +194,7 @@ class repository{
             return ["isSuccessfull" => false , "msg" => "cannot update many" , "data" => NULL ];
         }
 
-        $classInstance = new $this->className();
+        $classInstance = new $this->className;
         foreach ($data as $key => $value) {
             if (!property_exists($classInstance, $key)) continue;
 
@@ -243,7 +256,7 @@ class repository{
     //     }
     //     $data=mysqli_fetch_array(mysqli_query($this->conn,$query));
     
-    //     $classInstance = new $this->className();
+    //     $classInstance = new $this->className;
     //     foreach ($data as $key => $value) {
     //         if (!property_exists($classInstance, $key)) continue;
 
