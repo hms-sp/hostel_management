@@ -28,7 +28,7 @@
   <!-- Custom CSS -->
   <link href="assets/css/style.css" rel="stylesheet">
   <script>
-	function register() {
+	function signup() {
 
 		event.preventDefault();
 
@@ -51,7 +51,7 @@
 			document.getElementById('status').innerHTML = "<div class='alert alert-info'>"+msg+"</div>";
 			return;
 		}
-		else if (password != cpasswordInput){
+		else if (password != cpassword){
 			var msg = " Password doesn't match .";
 			document.getElementById('status').innerHTML = "<div class='alert alert-info'>"+msg+"</div>";
 			return;
@@ -137,6 +137,8 @@
 										<!-- Form START -->
 										<form class="mt-4 text-start">
 											<div class="form py-4">
+												<div id="status">
+												</div>
 												<div class="form-group">
 													<label class="form-label">Enter email ID</label>
 													<input id="username" type="email" class="form-control" placeholder="name@example.com">
@@ -161,7 +163,7 @@
 												</div>
 
 												<div class="form-group">
-													<button onclick="login()" class="btn btn-primary full-width font--bold btn-lg">Create An
+													<button onclick="signup()" class="btn btn-primary full-width font--bold btn-lg">Create An
 														Account</button>
 												</div>
 
