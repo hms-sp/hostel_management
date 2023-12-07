@@ -29,15 +29,19 @@ class repository{
         $query="select * from $this->tableName";
 
         if(gettype($filter)==gettype(['array']) and count($filter)!=0){
+            
+            echo "<br>array filter - ".json_encode($filter);
+            
             $query.=" where ";
             foreach($filter as $column => $value){
-                $query.= "$column = $value and";
+                $query.= "`$column` = '$value' and";
             }
             $query = substr($query,0,strlen($query)-4);
         }
 
         else if(gettype($filter)==gettype('string') and strlen($filter)!=0){
            
+             echo "<br>str filter - $filter ";
              $query.= "where $filter";
         }
         else{
@@ -45,12 +49,16 @@ class repository{
         }   
 
         $query.= "order by $sort $sortType limit $max ";
+        
+        echo "<br> query - $query";
+        
         $query=mysqli_query($this->conn,$query);
         if(!$query){
             return ["isSuccessfull" => false , "msg" => "invalid query" , "data" =>NULL];
       
         }
         $data=mysqli_fetch_all($query);
+        
         $final=[];
         foreach($data as $d){
             $classInstance = new $this->className;
@@ -103,8 +111,10 @@ class repository{
         }
         $data=mysqli_fetch_array($query);
         
-        echo "<br> data - ".json_encode($data);
         $classInstance = new $this->className;
+        if(!$data){
+             return ["isSuccessfull" => true , "msg" => "success" , "data" =>NULL];
+        }
         foreach ($data as $key => $value) {
             if (!property_exists($classInstance, $key)) continue;
 
@@ -121,30 +131,31 @@ class repository{
      public function save($data){
 
         $data=gettype($data)=="object"?json_decode(json_encode($data)):$data;
-
+        
         $exsistingData=$this->fetch($data->{$this->pk});
 
         if($exsistingData['data']!==NULL){
-
+            echo "<br>exsisting data - ".json_encode($exsistingData);
             return ["isSuccessfull" => false , "msg" => "data already exists" , "data" => NULL ];
         }
 
-        $leftQuery="insert into $this->tableName (";
+        $leftQuery="insert into ".$this->tableName." (";
 
         $rightQuery="values (";
 
         $classInstance = new $this->className;
         foreach ($data as $key => $value) {
-            if (!property_exists($classInstance, $key)) continue;
+            if (!property_exists($classInstance, $key) || !$value) continue;
 
             $classInstance->{$key} = $value;
             $leftQuery.= "`$key`,";
             $rightQuery.="'$value',";
         }
-        $leftQuery=substr($leftQuery,strlen($leftQuery)-1);
+        $leftQuery=substr($leftQuery,0,strlen($leftQuery)-1);
         $leftQuery.=") ";
-        $rightQuery=substr($rightQuery,strlen($rightQuery)-1);
+        $rightQuery=substr($rightQuery,0,strlen($rightQuery)-1);
         $rightQuery.=")";
+        echo "<br>insert query - $leftQuery.$rightQuery";
         if(mysqli_query($this->conn,$leftQuery.$rightQuery)){
 
             return ["isSuccessfull" => true , "msg" => "success" , "data" => $classInstance ];
@@ -164,7 +175,7 @@ class repository{
             return ["isSuccessfull" => false , "msg" => "data doesnt exists" , "data" => NULL ];
         }
 
-        $leftQuery="update $this->tableName set ";
+        $leftQuery="update ".$this->tableName." set ";
 
         
         $rightQuery="";
@@ -177,26 +188,91 @@ class repository{
             foreach($filter as $column => $value){
                 $rightQuery="`$column`='$value' and";  
             }
-            $rightQuery=substr($rightQuery,strlen($rightQuery)-4);
+            $rightQuery=substr($rightQuery,0,strlen($rightQuery)-4);
         }
-        else if($expression!=0){
+        else if(strlen($expression)!=0){
 
             $rightQuery.=" where $expression";
 
         }
         else{
-            $rightQuery.=" where `$this->pk` = '$data->{$this->pk}' ";
+            $rightQuery.=" where `".$this->pk."` = '".$data->{$this->pk}."' ";
         }
-        $data=mysqli_fetch_all(mysqli_query($this->conn,"select * from $this->tableName $rightQuery"));
+        $data=mysqli_num_rows(mysqli_query($this->conn,"select ".$this->pk." from ".$this->tableName." $rightQuery"));
     
-        if(count($data)>1){
+        if($data>1){
 
             return ["isSuccessfull" => false , "msg" => "cannot update many" , "data" => NULL ];
         }
 
+        $data=mysqli_fetch_array(mysqli_query($this->conn,"select ".$this->pk." from ".$this->tableName." $rightQuery"));
+
         $classInstance = new $this->className;
         foreach ($data as $key => $value) {
-            if (!property_exists($classInstance, $key)) continue;
+            if (!property_exists($classInstance, $key) || !$value) continue;
+
+            if($exsistingData['data'][$key]==$value) continue;
+
+            $classInstance->{$key} = $value;
+            
+            $leftQuery.= "SET `$key` = '$value' ,";
+        }
+        $leftQuery=substr($leftQuery,strlen($leftQuery)-1);
+        
+        $query=mysqli_query($this->conn,$leftQuery.$rightQuery);
+        if(!$query){
+            return ["isSuccessfull" => false , "msg" => "invalid query" , "data" =>NULL];
+      
+        }
+        return ["isSuccessfull" => true , "msg" => "success" , "data" =>$classInstance];
+     
+    }
+
+     //method to update multiple objects in reference to other fields
+     public function updateMany($data,$filter="",$expression=""){
+
+        $exsistingData=$this->fetch($data->{$this->pk});
+
+        if($exsistingData['data']===NULL){
+
+            return ["isSuccessfull" => false , "msg" => "data doesnt exists" , "data" => NULL ];
+        }
+
+        $leftQuery="update ".$this->tableName." set ";
+
+        
+        $rightQuery="";
+        if($filter){
+            if(gettype($filter)!=gettype(['array'])){
+                $id=$filter;
+                $filter=[$this->pk => $id];
+            }
+            $rightQuery=" where ";
+            foreach($filter as $column => $value){
+                $rightQuery="`$column`='$value' and";  
+            }
+            $rightQuery=substr($rightQuery,0,strlen($rightQuery)-4);
+        }
+        else if(strlen($expression)!=0){
+
+            $rightQuery.=" where $expression";
+
+        }
+        else{
+            $rightQuery.=" where `".$this->pk."` = '".$data->{$this->pk}."' ";
+        }
+        $data=mysqli_num_rows(mysqli_query($this->conn,"select ".$this->pk." from ".$this->tableName." $rightQuery"));
+    
+        if($data>1){
+
+            return ["isSuccessfull" => false , "msg" => "cannot update many" , "data" => NULL ];
+        }
+
+        $data=mysqli_fetch_array(mysqli_query($this->conn,"select ".$this->pk." from ".$this->tableName." $rightQuery"));
+
+        $classInstance = new $this->className;
+        foreach ($data as $key => $value) {
+            if (!property_exists($classInstance, $key) || !$value) continue;
 
             if($exsistingData['data'][$key]==$value) continue;
 

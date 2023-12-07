@@ -6,6 +6,7 @@ ini_set('display_errors', '1');
 ini_set('allow_url_fopen',1);
 
 include_once('../helpers/db.php');
+include_once('../helpers/repository.php');
 include_once('../models/user.php');
 
 $required_fields = ['username', 'password' , 'name'];
@@ -35,11 +36,7 @@ foreach($required_fields as $required_field){
 
 if ($validated) {
 
-  $userName = trim($request['username']);
-  $password = trim($request['password']);
-  $name = trim($request['name']);
-
-  signup($userName, $password);
+  signup();
   
 }
 else{
@@ -50,16 +47,16 @@ else{
 }
 
 
-function signup($userName,$password){
+function signup(){
 
     global $request,$unique_fields,$conn;
 
     $classInstance = new user();
-    foreach($_REQUEST as $key=>$input){
+    foreach($request as $key=>$input){
 
         if (!property_exists($classInstance, $key)) continue;
         
-        $classInstance->{$key} = $input;
+        $classInstance->{$key} = trim($input);
     }
 
     $uniqueFilter=[];
