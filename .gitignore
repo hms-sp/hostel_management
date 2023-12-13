@@ -1,8 +1,12 @@
 **/assets
+**assets/
 **/assets/
-/home/assets
 home/assets
-/auth/assets
-/user/assets
-/hostel/assets
-/unedited/assets
+user/assets
+hostel/assets
+hostel/assets/
+/hostel/assets/
+
+home/auth/assets
+user/auth/assets
+hostel/auth/assets
