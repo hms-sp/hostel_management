@@ -18,7 +18,8 @@ $request = json_decode($input_data, true);
 if ($request === null) {
     // JSON decoding failed
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid JSON', 'request'=>$request]);
+    $log = ob_get_clean();
+    echo json_encode(['error' => 'Invalid JSON', 'request'=>$request,'log'=>$log]);
     exit;
 }
 
@@ -40,7 +41,8 @@ if ($validated) {
   
 }
 else{
-    $data = ['isSuccessfull' => false , 'status' => 'please enter username and password', 'request'=>json_encode($request)];
+    $log = ob_get_clean();
+    $data = ['isSuccessfull' => false , 'status' => 'please enter username and password', 'request'=>json_encode($request),'log'=>$log];
     echo json_encode($data);
     exit;
 }
