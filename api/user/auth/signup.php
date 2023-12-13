@@ -5,9 +5,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 ini_set('allow_url_fopen',1);
 
-include_once('../helpers/db.php');
-include_once('../helpers/repository.php');
-include_once('../models/user.php');
+
+include_once('../../helpers/db.php');
+include_once('../../helpers/repository.php');
+include_once('../../models/user.php');
 
 $required_fields = ['username', 'password' , 'name'];
 $unique_fields = ['username'];

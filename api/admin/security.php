@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once('db.php');
-include_once('repository.php');
+include_once('../helpers/db.php');
+include_once('../helpers/repository.php');
 
 $folderPath = '../models/';
 
@@ -26,7 +26,7 @@ class security{
    static $userIdColumn;
 
 
-   public static function setUser($userId,$password,$userClass="user",$userTable="users",$userIdColumn="username")
+   public static function setUser($userId,$password,$userClass="admin",$userTable="admins",$userIdColumn="username")
    {
     global $conn;
     $userRepo=new repository($userClass,$userTable,$userIdColumn,$conn);
