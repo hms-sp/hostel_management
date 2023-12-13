@@ -1,5 +1,7 @@
 **/assets
+**/assets/
 /home/assets
+home/assets
 /auth/assets
 /user/assets
 /hostel/assets
