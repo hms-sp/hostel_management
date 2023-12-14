@@ -6,6 +6,7 @@ ini_set('display_errors', '1');
 ini_set('allow_url_fopen',1);
 
 include_once('../security.php');
+include_once('../include.php');
 
 $required_fields = ['username', 'password'];
 

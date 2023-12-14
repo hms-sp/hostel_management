@@ -3,14 +3,6 @@ session_start();
 include_once('../helpers/db.php');
 include_once('../helpers/repository.php');
 
-$folderPath = '../models/';
-
-$files = glob($folderPath . '*.php');
-
-foreach ($files as $file) {
-    include_once $file;
-}
-
 class security{
 
    static $userId;
