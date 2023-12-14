@@ -1,7 +1,5 @@
 <?php
 session_start();
-include_once('../helpers/db.php');
-include_once('../helpers/repository.php');
 
 class security{
 
