@@ -1,13 +1,4 @@
 <?php
-$folderPath = '../models/';
-
-$files = glob($folderPath . '*.php');
-
-foreach ($files as $file) {
-    echo "<br> included - $file";
-    include_once $file;
-}
-
 class repository{
 
     public $className;

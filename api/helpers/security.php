@@ -3,14 +3,6 @@ session_start();
 include_once('db.php');
 include_once('repository.php');
 
-$folderPath = '../models/';
-
-$files = glob($folderPath . '*.php');
-
-foreach ($files as $file) {
-    include_once $file;
-}
-
 class security{
 
    static $userId;
