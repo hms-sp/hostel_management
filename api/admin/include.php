@@ -17,7 +17,7 @@ $PK = 'user';
 $admin = "admin";
 $hostel  = "1212";
 
-$hostelRepo=new repository($Class,$Table,$PK,$conn);
+$hostelRepo=new repository("hostel","hostels","id",$conn);
 $userRepo=new repository("user","users","username",$conn);
 
 ?>
