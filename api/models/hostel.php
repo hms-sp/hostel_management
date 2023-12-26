@@ -6,7 +6,7 @@ class hostel{
     
    public $name;
 
-   public $owner;
+   public $admin;
 
    public $capacity;
 
