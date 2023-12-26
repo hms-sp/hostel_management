@@ -9,6 +9,8 @@ class user{
    
    public $name;
 
+   public $hostel;
+
    public $sessionId;
 
    public $token;

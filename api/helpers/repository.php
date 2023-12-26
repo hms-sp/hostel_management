@@ -48,10 +48,9 @@ class repository{
             return ["isSuccessfull" => false , "msg" => "invalid query" , "data" =>NULL];
       
         }
-        $data=mysqli_fetch_all($query);
         
         $final=[];
-        foreach($data as $d){
+        while($d = mysqli_fetch_array($query)){
             $classInstance = new $this->className;
             foreach ($d as $key => $value) {
                 if (!property_exists($classInstance, $key)) continue;

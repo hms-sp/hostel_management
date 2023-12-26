@@ -9,4 +9,15 @@ foreach ($files as $file) {
 include_once('../../helpers/db.php');
 include_once('../../helpers/constants.php');
 include_once('../../helpers/repository.php');
+
+$Class = 'user';
+$Table = 'users';
+$PK = 'user';
+
+$admin = "admin";
+$hostel  = "1212";
+
+$hostelRepo=new repository($Class,$Table,$PK,$conn);
+$userRepo=new repository("user","users","username",$conn);
+
 ?>
