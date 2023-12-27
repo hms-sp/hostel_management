@@ -27,32 +27,7 @@
 
   <!-- Custom CSS -->
   <link href="../assets/css/style.css" rel="stylesheet">
-  <script>
-	function fetchUsers(filter) {
 
-		const apiUrl = '../../api/admin/dashboard/users.php';
-
-		// Make a POST request using fetch
-		fetch(apiUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json', // Set the appropriate content type
-			},
-			body: JSON.stringify(filter), // Convert the data to JSON format
-		})
-		.then(response => response.json())
-		.then(result => {
-			console.log('API Response:', result);
-		})
-		.catch(error => {
-			console.error('Error:', error);
-			// Handle errors
-		});
-	}
-	window.onload = () => {
-		fetchUsers({type : "all"});
-	};
-  </script>
 </head>
 
 <body>
@@ -93,6 +68,10 @@
 		<!-- ============================ 404 Start ================================== -->
 		<section class="position-relative">
 			<div class="container">
+				Select theme
+				<select id="theme">
+				  
+				</select>
 				<div class="row align-items-center justify-content-center">
 					<div class="col-xl-12 col-lg-12 col-12">
 						<div class="card list-layout-block rounded-3 p-3">
@@ -683,6 +662,60 @@
 	<!-- ============================================================== -->
 	<!-- End Wrapper -->
 	<!-- ============================================================== -->
+
+	<!-- dom -->
+	<script src="../common/dom.js"></script>
+
+	<script>
+	 function fetchUsers(filter) {
+		const apiUrl = '../../api/admin/dashboard/users.php';
+
+		// Return a Promise
+		return new Promise((resolve, reject) => {
+			// Make a POST request using fetch
+			fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json', // Set the appropriate content type
+			},
+			body: JSON.stringify(filter), // Convert the data to JSON format
+			})
+			.then(response => response.json())
+			.then(response => {
+				console.log('API Response:', response);
+				resolve(response); // Resolve the Promise with the response
+			})
+			.catch(error => {
+				console.log('Error:', error);
+				reject(error); // Reject the Promise with the error
+			});
+		});
+	  }
+	  window.onload = () => {
+
+		  var users = [{username : "karthik"}];
+
+		  var result = fetchUsers({type : "all"}).then(result => {
+				// Handle the result
+				console.log('Result:', result);
+				if(result.isSuccessfull){
+				   users = result.data;
+				}
+		  })
+		 .catch(error => {
+				// Handle the error
+				console.error('Error:', error);
+				if(result.isSuccessfull){
+				   users = result.data;
+				}
+
+		  });
+
+		  console.log('fetchUsers fun result :', result);
+
+		  map('theme', "<option>{{d.username}}</option>", users);
+	  };
+	</script>
 
 
 	<!-- ============================================================== -->
