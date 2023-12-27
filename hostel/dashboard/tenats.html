@@ -27,6 +27,32 @@
 
   <!-- Custom CSS -->
   <link href="../assets/css/style.css" rel="stylesheet">
+  <script>
+	function fetchUsers(filter) {
+
+		const apiUrl = '../../api/admin/dashboard/users.php';
+
+		// Make a POST request using fetch
+		fetch(apiUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json', // Set the appropriate content type
+			},
+			body: JSON.stringify(filter), // Convert the data to JSON format
+		})
+		.then(response => response.json())
+		.then(result => {
+			console.log('API Response:', result);
+		})
+		.catch(error => {
+			console.error('Error:', error);
+			// Handle errors
+		});
+	}
+	window.onload = () => {
+		fetchUsers({type : "all"});
+	};
+  </script>
 </head>
 
 <body>
@@ -68,17 +94,95 @@
 		<section class="position-relative">
 			<div class="container">
 				<div class="row align-items-center justify-content-center">
-					<div class="col-xl-7 col-lg-9 col-md-12">
+					<div class="col-xl-12 col-lg-12 col-12">
+						<div class="card list-layout-block rounded-3 p-3">
+							<div class="row">
 
-						<div class="404-capstion text-center my-4">
-							<div class="404-captions">
-								<img src="../assets/img/404.png" class="img-fluid mb-3" alt="">
-								<h1 class="display-1 fw-bold mb-0">404</h1>
-								<h2>Ohhh ho, something went wrong!</h2>
-								<p class="fs-6">Cicero famously orated against his political opponent.</p>
+								<div class="col-xl-4 col-lg-3 col-md">
+									<div class="cardImage__caps rounded-2 overflow-hidden h-100">
+										<img class="img-fluid h-100 object-fit" src="../assets/img/property/img-8.jpg" alt="image">
+									</div>
+								</div>
+
+								<div class="col-xl col-lg col-md">
+									<div class="listLayout_midCaps mt-md-0 mt-3 mb-md-0 mb-3">
+										<div class="d-flex align-items-center justify-content-start mb-1">
+											<span class="label bg-light-purple text-purple">Apartment</span>
+										</div>
+										<h4 class="fs-5 fw-bold mb-1">Cobblestone Realty Partners</h4>
+										<ul class="row gx-2 p-0 excortio">
+											<li class="col-auto">
+												<p class="text-muted-2 text-md">South Town</p>
+											</li>
+											<li class="col-auto">
+												<p class="text-muted-2 text-md fw-bold">.</p>
+											</li>
+											<li class="col-auto">
+												<p class="text-muted-2 text-md">9km from Towndown</p>
+											</li>
+											<li class="col-auto">
+												<p class="text-muted-2 text-md fw-bold">.</p>
+											</li>
+											<li class="col-auto">
+												<p class="text-muted-2 text-md"><a href="#" class="text-primary">Show on Map</a></p>
+											</li>
+										</ul>
+										<div class="detail ellipsis-container mt-3">
+											<span class="ellipsis">3 Beds</span>
+											<span class="ellipsis">2 Baths</span>
+											<span class="ellipsis">1 Store</span>
+											<span class="ellipsis">2200 sqft</span>
+										</div>
+										<div class="position-relative mt-3">
+											<div class="fw-medium text-dark">Standard Twin Double Room</div>
+											<div class="text-md text-muted">Last booed 25min ago</div>
+										</div>
+										<div class="position-relative mt-4">
+											<div class="d-block position-relative"><span class="label bg-light-success text-success">Free
+													Cancellation Till 10 Aug 23</span></div>
+											<div class="text-md">
+												<p class="m-0"><a href="#" class="text-primary">Login</a> & get additional $15 Off Using
+													<span class="text-primary">Visa card</span>
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div
+									class="col-xl-auto col-lg-auto col-md-auto text-right text-md-left d-flex align-items-start align-items-md-end flex-column">
+									<div class="row align-items-center justify-content-start justify-content-md-end gx-2 mb-3">
+										<div class="col-auto text-start text-md-end">
+											<div class="text-md text-dark fw-medium">Exceptional</div>
+											<div class="text-md text-muted-2">3,014 reviews</div>
+										</div>
+										<div class="col-auto">
+											<div class="square--40 rounded-2 bg-primary text-light">4.8</div>
+										</div>
+									</div>
+
+									<div class="position-relative mt-auto full-width">
+										<div class="d-flex align-items-center justify-content-start justify-content-md-end mb-1">
+											<span class="label bg-light-danger text-danger">15% Off</span>
+										</div>
+										<div class="d-flex align-items-center justify-content-start justify-content-md-end">
+											<div class="text-muted-2 fw-medium text-decoration-line-through me-2">US$79</div>
+											<div class="text-dark fw-bold fs-3">$5000</div>
+										</div>
+										<div
+											class="d-flex align-items-start align-items-md-end justify-content-start justify-content-md-end flex-column mb-2">
+											<div class="text-muted-2 text-sm">+$22 taxes & Fees</div>
+											<div class="text-muted-2 text-sm">Per Month</div>
+										</div>
+										<div class="d-flex align-items-start align-items-md-end text-start text-md-end flex-column">
+											<a href="#" class="btn btn-md btn-primary full-width fw-medium px-lg-4">See Availability<i
+													class="fa-solid fa-arrow-trend-up ms-2"></i></a>
+										</div>
+									</div>
+								</div>
+
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
