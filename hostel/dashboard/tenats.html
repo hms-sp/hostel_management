@@ -698,6 +698,7 @@
 	  window.onload = () => {
 
 		  var users = [{username : "karthik"}];
+		  var hostels = [{name : "slns"}];
 
 		  fetch(usersUrl,{type : "all"}).then(result => {
 				// Handle the result
@@ -710,10 +711,6 @@
 		 .catch(error => {
 				// Handle the error
 				console.error('Error:', error);
-				if(result.isSuccessfull){
-				   users = result.data;
-				}
-
 		  });
 
 
@@ -721,17 +718,13 @@
 				// Handle the result
 				console.log('Result:', result);
 				if(result.isSuccessfull){
-				   users = result.data;
-		 		   map('theme', "<option>{{d.id}}</option>", users);
+					hostels = result.data;
+		 		   map('theme', "<option>{{d.name}}</option>", hostels);
 				}
 		  })
 		 .catch(error => {
 				// Handle the error
 				console.error('Error:', error);
-				if(result.isSuccessfull){
-				   users = result.data;
-				}
-
 		  });
 
 		  
