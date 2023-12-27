@@ -699,8 +699,9 @@
 
 		  var users = [{username : "karthik"}];
 		  var hostels = [{name : "slns"}];
+		  var result = {};
 
-		  fetch(usersUrl,{type : "all"}).then(result => {
+		  result = fetch(usersUrl,{type : "all"}).then(result => {
 				// Handle the result
 				console.log('Result:', result);
 				if(result.isSuccessfull){
@@ -710,11 +711,11 @@
 		  })
 		 .catch(error => {
 				// Handle the error
-				console.error('Error:', error);
+				console.log('Error:', error);
 		  });
 
 
-		  fetch(hostelsUrl,{type : "all"}).then(result => {
+		  result = fetch(hostelsUrl,{type : "all"}).then(result => {
 				// Handle the result
 				console.log('Result:', result);
 				if(result.isSuccessfull){
@@ -724,7 +725,7 @@
 		  })
 		 .catch(error => {
 				// Handle the error
-				console.error('Error:', error);
+				console.log('Error:', error);
 		  });
 
 		  
