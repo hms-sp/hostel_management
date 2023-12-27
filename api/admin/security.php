@@ -13,7 +13,7 @@ class security{
 
    static $userData;
 
-   static $userIdColumn;
+   static $userIdColumn = "username";
 
 
    public static function setUser($userId,$password,$userClass="admin",$userTable="admins",$userIdColumn="username")
@@ -24,10 +24,13 @@ class security{
     self::$userData=$userRepo->fetch(["$userIdColumn" => $userId])['data'];
 
     if(isset(self::$userData->password) && self::$userData->password == $password){
-       self::$userIdColumn=$userIdColumn;
-       $_SESSION[self::$userIdColumn]=$userId;
-       self::$userId=$userId;
-       self::$sessionId=session_id();
+       self::$userIdColumn = $userIdColumn;
+       $_SESSION[self::$userIdColumn] = $userId;
+       $_SESSION["role"] = "admin";
+       $_SESSION["userData"] = json_encode(self::$userData);
+
+       self::$userId = $userId;
+       self::$sessionId = session_id();
        if(isset(self::$userData->roles)){
            self::$roles=explode(',',self::$userData->roles);
        }
@@ -40,8 +43,7 @@ class security{
 
    public static function getRoles(){
        
-        $userId=$_SESSION[self::$userIdColumn];
-        if($userId===NULL || !isset($_SESSION[self::$userIdColumn])){
+        if(!isset($_SESSION[self::$userIdColumn])){
         return NULL;
         }
         return self::$roles;
@@ -49,25 +51,26 @@ class security{
 
    public static function getCurrentUser(){
      
-        $userId=$_SESSION[self::$userIdColumn];
-        if($userId===NULL || !isset($_SESSION[self::$userIdColumn])){
+        if(!isset($_SESSION[self::$userIdColumn])){
             return NULL;
         }
-        return self::$userId;
+        return $_SESSION[self::$userIdColumn];
    }
 
    public static function getCurrentUserData(){
      
-        $userId=$_SESSION[self::$userIdColumn];
-        if($userId===NULL || !isset($_SESSION[self::$userIdColumn])){
-        return NULL;
+        if(!isset($_SESSION[self::$userIdColumn])){
+            return NULL;
         }
-        return self::$userData;
+        return $_SESSION["userData"];
    }
 
    public static function logout(){
      
-    $_SESSION[self::$userIdColumn]=NULL;
+    $_SESSION[self::$userIdColumn] = NULL;
+    $_SESSION["userData"] = NULL;
+    $_SESSION["role"] = NULL;
+
     self::$userId=NULL;
     self::$sessionId=NULL;
     self::$userData=NULL;

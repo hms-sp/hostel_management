@@ -40,42 +40,44 @@ class security{
    }
 
 
+   
+
    public static function getRoles(){
        
-        $userId=$_SESSION[self::$userIdColumn];
-        if($userId===NULL || !isset($_SESSION[self::$userIdColumn])){
-        return NULL;
-        }
-        return self::$roles;
-   }
+     if(!isset($_SESSION[self::$userIdColumn])){
+     return NULL;
+     }
+     return self::$roles;
+}
 
-   public static function getCurrentUser(){
-     
-        $userId=$_SESSION[self::$userIdColumn];
-        if($userId===NULL || !isset($_SESSION[self::$userIdColumn])){
-            return NULL;
-        }
-        return self::$userId;
-   }
+public static function getCurrentUser(){
+  
+     if(!isset($_SESSION[self::$userIdColumn])){
+         return NULL;
+     }
+     return $_SESSION[self::$userIdColumn];
+}
 
-   public static function getCurrentUserData(){
-     
-        $userId=$_SESSION[self::$userIdColumn];
-        if($userId===NULL || !isset($_SESSION[self::$userIdColumn])){
-        return NULL;
-        }
-        return self::$userData;
-   }
+public static function getCurrentUserData(){
+  
+     if(!isset($_SESSION[self::$userIdColumn])){
+         return NULL;
+     }
+     return $_SESSION["userData"];
+}
 
-   public static function logout(){
-     
-    $_SESSION[self::$userIdColumn]=NULL;
-    self::$userId=NULL;
-    self::$sessionId=NULL;
-    self::$userData=NULL;
-    self::$roles=NULL;
-    session_destroy();
-    return [];
-   }
+public static function logout(){
+  
+ $_SESSION[self::$userIdColumn] = NULL;
+ $_SESSION["userData"] = NULL;
+ $_SESSION["role"] = NULL;
+
+ self::$userId=NULL;
+ self::$sessionId=NULL;
+ self::$userData=NULL;
+ self::$roles=NULL;
+ session_destroy();
+ return [];
+}
 
 }

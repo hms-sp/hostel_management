@@ -6,6 +6,7 @@ ini_set('display_errors', '1');
 ini_set('allow_url_fopen',1);
 
 include_once('../include.php');
+include_once('../auth.php');
 
 $input_data = file_get_contents("php://input");
 

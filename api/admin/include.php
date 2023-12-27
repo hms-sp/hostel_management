@@ -9,20 +9,12 @@ foreach ($files as $file) {
 include_once('../../helpers/db.php');
 include_once('../../helpers/constants.php');
 include_once('../../helpers/repository.php');
-include_once('../../helpers/security.php');
+include_once('../security.php');
 
 $Class = 'user';
 $Table = 'users';
 $PK = 'user';
 
-$admin = security::getCurrentUser();
-if($admin){
-    echo $admin;
-}
-else{
-    echo "not logged in";
-    exit;
-}
 
 $admin = "admin";
 $hostel  = "1212";
