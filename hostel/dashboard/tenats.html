@@ -667,9 +667,13 @@
 	<script src="../common/dom.js"></script>
 
 	<script>
-	 function fetchUsers(filter) {
-		const apiUrl = '../../api/admin/dashboard/users.php';
 
+	const usersUrl = '../../api/admin/dashboard/users.php';
+
+	const hostelsUrl = '../../api/admin/dashboard/hostels.php';
+
+
+	 function fetch(apiUrl,filter) {
 		// Return a Promise
 		return new Promise((resolve, reject) => {
 			// Make a POST request using fetch
@@ -695,11 +699,12 @@
 
 		  var users = [{username : "karthik"}];
 
-		  var result = fetchUsers({type : "all"}).then(result => {
+		  fetchUsers(usersUrl,{type : "all"}).then(result => {
 				// Handle the result
 				console.log('Result:', result);
 				if(result.isSuccessfull){
 				   users = result.data;
+		 		 //map('theme', "<option>{{d.username}}</option>", users);
 				}
 		  })
 		 .catch(error => {
@@ -711,9 +716,25 @@
 
 		  });
 
-		  console.log('fetchUsers fun result :', result);
 
-		  map('theme', "<option>{{d.username}}</option>", users);
+		  fetch(hostelsUrl,{type : "all"}).then(result => {
+				// Handle the result
+				console.log('Result:', result);
+				if(result.isSuccessfull){
+				   users = result.data;
+		 		   map('theme', "<option>{{d.id}}</option>", users);
+				}
+		  })
+		 .catch(error => {
+				// Handle the error
+				console.error('Error:', error);
+				if(result.isSuccessfull){
+				   users = result.data;
+				}
+
+		  });
+
+		  
 	  };
 	</script>
 
