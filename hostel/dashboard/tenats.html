@@ -48,13 +48,13 @@
 		<!-- ============================================================== -->
 		<!-- Start Navigation -->
 
-		<script>
-			// Using JavaScript to include footer.html
-			fetch('../common/header.html')
-				.then(response => response.text())
-				.then(data => {
-					document.body.innerHTML += data;
-				});
+    	<script>
+                fetch('../common/header.html')
+                .then(response => response.text())
+                .then(headerData => {
+                    // Insert the header content at the beginning of the body
+                    document.body.insertAdjacentHTML('afterbegin', headerData);
+                });
 		</script>
 
 		<!-- End Navigation -->
@@ -67,9 +67,9 @@
 		<!-- ============================ 404 Start ================================== -->
 		<section class="position-relative">
 			<div class="container">
-				Select Hostel
-				<select id="hostels">
-					<option>{{d.name}}</option>
+				<div class="text-dark fw-bold fs-3">Select Hostel</div>
+				<select class="form-control" id="hostels"  onchange="hostelChange()">
+					<option value="{{d.id}}">{{d.name}}</option>
 				</select>
 				<div id="tenats" class="row align-items-center justify-content-center">
 
@@ -261,6 +261,18 @@
 
 		  
 	  };
+	  function hostelChange(){
+		  var hostel = document.getElementById('hostels').value;
+		  customFetch(usersUrl,{hostel}).then(result => {
+				// Handle the result
+				console.log('Result:', result);
+				if(result.isSuccessfull){
+				   users = JSON.parse(result.data);
+				   var parent = 'tenats';
+		 		   map(parent, users);
+				}
+		  })
+	  }
 	</script>
 
 
