@@ -67,9 +67,9 @@
 		<!-- ============================ 404 Start ================================== -->
 		<section class="position-relative">
 			<div class="container">
-				Select theme
-				<select id="theme">
-				  
+				Select Hostel
+				<select id="hostels">
+					<option>{{d.name}}</option>
 				</select>
 				<div id="tenats" class="row align-items-center justify-content-center">
 
@@ -238,7 +238,7 @@
 
 				   var parent = 'tenats';
 				   var template = document.getElementById(parent).innerHTML;
-		 		   map(parent, template , users);
+		 		   map(parent, users);
 				}
 		  })
 		 .catch(error => {
@@ -252,7 +252,7 @@
 				console.log('Result:', result);
 				if(result.isSuccessfull){
 					hostels = JSON.parse(result.data);
-		 		    map('theme', "<option>{{d.name}}</option>", hostels);
+		 		    map('hostels', hostels);
 				}
 		  })
 		 .catch(error => {
