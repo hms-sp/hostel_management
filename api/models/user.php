@@ -11,14 +11,8 @@ class user{
 
    public $hostel;
 
-   public $sessionId;
+   public $mobile;
 
-   public $token;
-
-   public $roles;
-
-   public $userData;
-
-   public $userIdColumn;
+   public $due;
 
 }

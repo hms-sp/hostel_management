@@ -88,10 +88,10 @@
 										<div class="d-flex align-items-center justify-content-start mb-1">
 											<span class="label bg-light-purple text-purple">Apartment</span>
 										</div>
-										<h4 class="fs-5 fw-bold mb-1">Cobblestone Realty Partners</h4>
+										<h4 class="fs-5 fw-bold mb-1">{{d.name}}</h4>
 										<ul class="row gx-2 p-0 excortio">
 											<li class="col-auto">
-												<p class="text-muted-2 text-md">South Town</p>
+												<p class="text-muted-2 text-md">{{d.mobile}}</p>
 											</li>
 											<li class="col-auto">
 												<p class="text-muted-2 text-md fw-bold">.</p>
@@ -113,7 +113,7 @@
 											<span class="ellipsis">2200 sqft</span>
 										</div>
 										<div class="position-relative mt-3">
-											<div class="fw-medium text-dark">Standard Twin Double Room</div>
+											<div class="fw-medium text-dark">Due :: {{d.due}}</div>
 											<div class="text-md text-muted">Last booed 25min ago</div>
 										</div>
 										<div class="position-relative mt-4">
@@ -235,9 +235,7 @@
 				console.log('Result:', result);
 				if(result.isSuccessfull){
 				   users = JSON.parse(result.data);
-
 				   var parent = 'tenats';
-				   var template = document.getElementById(parent).innerHTML;
 		 		   map(parent, users);
 				}
 		  })
@@ -252,6 +250,7 @@
 				console.log('Result:', result);
 				if(result.isSuccessfull){
 					hostels = JSON.parse(result.data);
+					var parent = 'hostels';
 		 		    map('hostels', hostels);
 				}
 		  })
