@@ -55,6 +55,11 @@
                     // Insert the header content at the beginning of the body
                     document.body.insertAdjacentHTML('afterbegin', headerData);
                 });
+
+				var scope = {
+					name: "Bhaskar ",
+				};
+
 		</script>
 
 		<!-- End Navigation -->
@@ -263,7 +268,7 @@
 	  };
 	  function hostelChange(){
 		  var hostel = document.getElementById('hostels').value;
-		  customFetch(usersUrl,{hostel}).then(result => {
+		  customFetch(usersUrl,{type : "all", hostel}).then(result => {
 				// Handle the result
 				console.log('Result:', result);
 				if(result.isSuccessfull){

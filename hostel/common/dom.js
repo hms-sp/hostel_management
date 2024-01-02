@@ -15,8 +15,15 @@ function map(parent , data, keys=[]) {
     var optionHtml = template;
 
     // Replace placeholders with actual values
-    keys.forEach(key =>
-      optionHtml = optionHtml.replace('{{d.' + key + '}}', data[i][key])
+    keys.forEach(key => {
+        optionHtml = optionHtml.replace('{{d.' + key + '}}', data[i][key])
+        
+        optionHtml = optionHtml.replace(/{{\s*([^}\s]+)\s*}}/g, function (match, p1) {
+          
+          return scope[p1] || match; 
+          
+        });
+      }
     );
 
     selectElement.innerHTML += optionHtml;

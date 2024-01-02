@@ -43,10 +43,10 @@ class security{
 
    public static function getRoles(){
        
-        if(!isset($_SESSION[self::$userIdColumn])){
-        return NULL;
+        if(!isset($_SESSION['role'])){
+            return NULL;
         }
-        return self::$roles;
+        return [$_SESSION['role']];
    }
 
    public static function getCurrentUser(){
@@ -64,6 +64,20 @@ class security{
         }
         return $_SESSION["userData"];
    }
+
+   public static function setHostels($hostels){
+     
+        $_SESSION["hostels"] = $hostels;
+    
+    }
+
+    public static function getHostels(){
+    
+        if(!isset($_SESSION["hostels"])){
+            return NULL;
+        }
+        return $_SESSION["hostels"];
+    }
 
    public static function logout(){
      

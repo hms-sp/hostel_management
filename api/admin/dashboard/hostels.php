@@ -40,11 +40,8 @@ function getAll(){
 
   global $request,$hostel,$Repo,$hostelRepo,$admin;
   
-  if(isset($request['admin'])){
-    $admin = $request['admin'];
-  }
-
   $data = $hostelRepo->fetchAll(["admin" => $admin])['data'];
+  security::setHostels($data);
 
   $log = ob_get_clean();
   $data = ['isSuccessfull' => true , 'status' => 'success', 'data'=>json_encode($data),'log'=>$log];
@@ -57,12 +54,18 @@ function get(){
 
     global $request,$hostel,$Repo,$hostelRepo,$admin;
     
-    if(isset($request['admin'])){
-      $admin = $request['admin'];
-    }
     if(isset($request['hostel'])){
         $hostel = $request['hostel'];
-        $data = $hostelRepo->fetch(["hostel" => $hostel])['data'];
+        $hostels = security::getHostels();
+
+        $data = [];
+        if(in_array($hostel, $hostels)){
+          $data = $hostelRepo->fetch(["hostel" => $hostel])['data'];
+        }
+        $log = ob_get_clean();
+        $data = ['isSuccessfull' => true , 'status' => 'success', 'data'=>json_encode($data),'log'=>$log];
+        exit;
+
     }
     else{
         $data = $hostelRepo->fetch(["admin" => $admin])['data'];    

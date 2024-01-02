@@ -32,9 +32,13 @@ else{
 function getAll(){
 
   global $request,$hostel,$Repo,$userRepo;
+
+  $hostels = security::getHostels();
   
-  if(isset($request['hostel'])){
+  if(isset($request['hostel']) && in_array($request['hostel'], $hostels)){
+
     $hostel = $request['hostel'];
+    
   }
 
   $data = $userRepo->fetchAll(["hostel" => $hostel])['data'];
