@@ -72,10 +72,15 @@
 		<!-- ============================ 404 Start ================================== -->
 		<section class="position-relative">
 			<div class="container">
-				<div class="text-dark fw-bold fs-3">Select Hostel</div>
-				<select class="form-control" id="hostels"  onchange="hostelChange()">
-					<option value="{{d.id}}">{{d.name}}</option>
-				</select>
+				<div class="row m-2">
+					<div class="text-dark fw-bold fs-3">Select Hostel</div>
+					<select class="form-control" id="hostels"  onchange="hostelChange()">
+						<option value="{{d.id}}">{{d.name}}</option>
+					</select>
+				</div>
+				<div class="row m-2">
+					<input class="form-control" id="user"  onkeyup="userChange()" placeholder="search tenat">
+				</div>
 				<div id="tenats" class="row align-items-center justify-content-center">
 
 					<div class="col-xl-12 col-lg-12 col-12">
@@ -277,6 +282,8 @@
 		 		   map(parent, users);
 				}
 		  })
+	  }
+	  function userChange(){
 	  }
 	</script>
 

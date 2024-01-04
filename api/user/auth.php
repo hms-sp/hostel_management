@@ -1,10 +1,10 @@
 <?php
-$admin = security::getCurrentUser();
+$user = security::getCurrentUser();
 $roles = security::getRoles();
-if(!$admin){
+if(!$user){
     echo "session not found";
 }
-else if(!in_array("admin",$roles)){
+else if(!in_array("user",$roles)){
     echo "authorization failed .";
     exit;
 }

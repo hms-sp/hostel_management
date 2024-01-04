@@ -34,8 +34,13 @@ function getAll(){
   global $request,$hostel,$Repo,$userRepo;
 
   $hostels = security::getHostels();
+
+  $idArray = array_map(function ($hostel) {
+    
+    return $hostel->id ?? null;
+  }, $hostels);
   
-  if(isset($request['hostel']) && in_array($request['hostel'], $hostels)){
+  if(isset($request['hostel']) && in_array($request['hostel'], $idArray)){
 
     $hostel = $request['hostel'];
     
