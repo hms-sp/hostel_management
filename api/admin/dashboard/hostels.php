@@ -16,7 +16,8 @@ $request = json_decode($input_data, true);
 if ($request === null) {
     // JSON decoding failed
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid JSON', 'request'=>$request]);
+    $log = ob_get_clean();
+    echo json_encode(['error' => 'Invalid JSON', 'request'=>$request,'log'=>$log]);
     exit;
 }
 
@@ -75,7 +76,7 @@ function get(){
     echo json_encode($data);
     exit;
   
-  }
+}
 
 
 ?>
